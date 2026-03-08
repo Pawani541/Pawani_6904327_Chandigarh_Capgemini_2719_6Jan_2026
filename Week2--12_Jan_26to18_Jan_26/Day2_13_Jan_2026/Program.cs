@@ -1,9 +1,21 @@
-﻿namespace internal interface;
+﻿using System;
+using System.Linq;
 
-internal class Program
+class Program
 {
-    static void Main(string[] args)
+    static void Main()
     {
-        Console.WriteLine("Hello, World!");
+        int[] arr = { 20, -10, 4, 78, -3, 12 };
+        int size = arr.Length;
+
+        if (size < 0)
+        {
+            Console.WriteLine("-1");
+            return;
+        }
+
+        var result = arr.Where(x => x >= 0).OrderBy(x => x).ToArray();
+
+        Console.WriteLine("Output: " + string.Join(",", result));
     }
 }
