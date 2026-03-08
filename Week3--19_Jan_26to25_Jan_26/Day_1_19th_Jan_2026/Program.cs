@@ -1,64 +1,40 @@
 ﻿using System;
 
-class UniversityPerson   
+class Vehicle
 {
-    public string Name
-    {
-        get;
-        protected set;
-    }
-    public int Id 
-    {
-        get;
-        protected set; 
-    }
+    public string Number { get; set; }
+    public double RatePerDay { get; set; }
 
-    public UniversityPerson(string name, int id)
+    public virtual double CalculateRent(int days)
     {
-        Name = name;
-        Id = id;
-    }
-
-    public virtual void Display()
-    {
-        Console.WriteLine($"{Id} - {Name}");
+        return RatePerDay * days;
     }
 }
 
-class Student : UniversityPerson
-{
-    public string Course { get; set; }
+class Car : Vehicle { }
+class Bike : Vehicle { }
+class Truck : Vehicle { }
 
-    public Student(string name, int id, string course)
-        : base(name, id)
-    {
-        Course = course;
-    }
-}
-
-class Professor : UniversityPerson
+class Customer
 {
-    public string Subject
+    public string Name 
     {
         get;
         set;
     }
-
-    public Professor(string name, int id, string subject)
-        : base(name, id)
-    {
-        Subject = subject;
-    }
 }
 
-class Staff : UniversityPerson
+class RentalTransaction
 {
-    public string Department { get; set; }
+    public Vehicle Vehicle;
+    public Customer Customer;
+    public int Days;
 
-    public Staff(string name, int id, string dept)
-        : base(name, id)
+    public void ShowBill()
     {
-        Department = dept;
+        Console.WriteLine("Customer Name: " + Customer.Name);
+        Console.WriteLine("Vehicle No: " + Vehicle.Number);
+        Console.WriteLine("Total Rent: " + Vehicle.CalculateRent(Days));
     }
 }
 
@@ -66,10 +42,19 @@ class Program
 {
     static void Main()
     {
-        Student s = new Student("Aarav", 101, "B.Tech");
-        Professor p = new Professor("Dr. Sharma", 201, "Maths");
+        Car car = new Car();
+        car.Number = "MH12AB1234";
+        car.RatePerDay = 1500;
 
-        s.Display();
-        p.Display();
+        Customer c = new Customer();
+        c.Name = "Aarav";
+
+        RentalTransaction rt = new RentalTransaction();
+        rt.Vehicle = car;
+        rt.Customer = c;
+        rt.Days = 3;
+
+        rt.ShowBill();
     }
 }
+
