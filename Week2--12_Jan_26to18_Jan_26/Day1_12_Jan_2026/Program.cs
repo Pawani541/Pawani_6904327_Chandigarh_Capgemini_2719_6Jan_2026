@@ -1,46 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 
-class RemoveRepeats
+class RupeeBreak
 {
     static void Main()
     {
-        Console.Write("Enter size of array: ");
-        int size = int.Parse(Console.ReadLine());
-        int[] output;
+        Console.Write("Enter amount: ");
+        int n = int.Parse(Console.ReadLine());
+        int output = 0;
 
-        if (size < 0)
-        {
-            output = new int[] { -1 };
-        }
+        if (n < 0) output = -1;
         else
         {
-            int[] arr = new int[size];
-            bool neg = false;
-            List<int> unique = new List<int>();
+            int[] denom = { 500, 100, 50, 10, 1 };
 
-            Console.WriteLine("Enter elements:");
-            for (int i = 0; i < size; i++)
+            foreach (int d in denom)
             {
-                Console.Write("arr[" + i + "] = ");
-                arr[i] = int.Parse(Console.ReadLine());
-                if (arr[i] < 0) neg = true;
-            }
-
-            if (neg)
-            {
-                output = new int[] { -1 };
-            }
-            else
-            {
-                foreach (int v in arr)
-                    if (!unique.Contains(v))
-                        unique.Add(v);
-                output = unique.ToArray();
+                int count = n / d;
+                output += count;
+                n = n % d;
             }
         }
 
-        Console.Write("Output: ");
-        foreach (int v in output) Console.Write(v + " ");
+        Console.WriteLine("Output: " + output);
     }
 }
