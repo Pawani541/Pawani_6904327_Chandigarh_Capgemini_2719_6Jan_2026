@@ -1,68 +1,75 @@
 ﻿using System;
 
-class BankAccount
+class EProduct   
 {
-    public int AccountNo 
-    {
-        get; 
-        private set;
-    }
-    public string HolderName
-    {
-        get;
-        private set;
-    }
-    protected double Balance;
+    public int Id { get; private set; }
+    public string Name { get; private set; }
+    public double Price { get; protected set; }
 
-    public BankAccount(int accNo, string name, double balance)
+    public EProduct(int id, string name, double price)
     {
-        AccountNo = accNo;
-        HolderName = name;
-        Balance = balance;
-    }
-
-    public void Deposit(double amount)
-    {
-        Balance += amount;
-    }
-
-    public void Withdraw(double amount)
-    {
-        if (amount <= Balance)
-            Balance -= amount;
-        else
-            Console.WriteLine("Insufficient balance");
+        Id = id;
+        Name = name;
+        Price = price;
     }
 
     public virtual void Display()
     {
-        Console.WriteLine($"Account: {AccountNo}, Name: {HolderName}, Balance: {Balance}");
+        Console.WriteLine($"{Id} - {Name} - ₹{Price}");
     }
 }
 
-class SavingsAccount : BankAccount
+class Electronics : EProduct
 {
-    public SavingsAccount(int accNo, string name, double balance)
-        : base(accNo, name, balance) { }
+    public Electronics(int id, string name, double price)
+        : base(id, name, price) { }
+}
 
-    public void AddInterest()
+class Clothing : EProduct
+{
+    public Clothing(int id, string name, double price)
+        : base(id, name, price) { }
+}
+
+class Books : EProduct
+{
+    public Books(int id, string name, double price)
+        : base(id, name, price) { }
+}
+
+class Customer
+{
+    public string Name { get; set; }
+}
+
+class Order
+{
+    public EProduct Product;
+    public Customer Customer;
+
+    public void ShowOrder()
     {
-        Balance += Balance * 0.04;
+        Console.WriteLine("Customer: " + Customer.Name);
+        Product.Display();
     }
-}
-
-class CheckingAccount : BankAccount
-{
-    public CheckingAccount(int accNo, string name, double balance)
-        : base(accNo, name, balance) { }
 }
 
 class Program
 {
     static void Main()
     {
-        SavingsAccount sa = new SavingsAccount(101, "Aarav", 10000);
-        sa.AddInterest();
-        sa.Display();
+        Electronics e = new Electronics(1, "Laptop", 55000);
+        Clothing c = new Clothing(2, "T-Shirt", 1200);
+        Books b = new Books(3, "C# Guide", 500);
+
+        Customer cust = new Customer { Name = "Aarav" };
+
+        Order o1 = new Order { Customer = cust, Product = e };
+        Order o2 = new Order { Customer = cust, Product = c };
+        Order o3 = new Order { Customer = cust, Product = b };
+
+        o1.ShowOrder();
+        o2.ShowOrder();
+        o3.ShowOrder();
     }
 }
