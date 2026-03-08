@@ -1,25 +1,41 @@
 ﻿using System;
+using System.Collections.Generic;
 
-class ProductDigit
+class RemoveDup
 {
     static void Main()
     {
-        Console.Write("Enter number: ");
-        int n = int.Parse(Console.ReadLine());
-        int output = 0;
+        Console.Write("Enter size: ");
+        int size = int.Parse(Console.ReadLine());
+        List<int> unique = new List<int>();
 
-        if (n < 0) output = -1;
-        else if (n % 3 == 0 || n % 5 == 0) output = -2;
-        else
+        if (size < 0)
         {
-            int product = 1, num = n;
-            while (num > 0)
-            {
-                product *= num % 10;
-                num /= 10;
-            }
-            output = (product % 3 == 0 || product % 5 == 0) ? 1 : 0;
+            Console.WriteLine("-2");
+            return;
         }
-        Console.WriteLine("Output: " + output);
+
+        int[] arr = new int[size];
+        bool neg = false;
+        Console.WriteLine("Enter elements:");
+        for (int i = 0; i < size; i++)
+        {
+            Console.Write("arr[" + i + "] = ");
+            arr[i] = int.Parse(Console.ReadLine());
+            if (arr[i] < 0) neg = true;
+        }
+
+        if (neg)
+        {
+            Console.WriteLine("-1");
+            return;
+        }
+
+        foreach (int v in arr)
+            if (!unique.Contains(v))
+                unique.Add(v);
+
+        Console.Write("Output: ");
+        foreach (int x in unique) Console.Write(x + " ");
     }
 }
