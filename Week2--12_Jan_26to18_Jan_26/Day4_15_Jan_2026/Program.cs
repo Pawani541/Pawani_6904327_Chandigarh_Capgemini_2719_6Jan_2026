@@ -1,33 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
 
 class Program
 {
     static void Main()
     {
-        Console.Write("Enter number: ");
-        int n = Convert.ToInt32(Console.ReadLine());
+        Console.Write("Enter basic salary: ");
+        int basic = Convert.ToInt32(Console.ReadLine());
 
-        if (n < 0) 
-        { 
-            Console.WriteLine(-1); 
-            return;
-        }
-        if (n == 0) 
+        Console.Write("Enter working days: ");
+        int days = Convert.ToInt32(Console.ReadLine());
+
+        if (basic < 0) 
         {
-            Console.WriteLine(0);
-            return;
+            Console.WriteLine(-1); return;
         }
-
-        List<int> bits = new List<int>();
-        while (n > 0)
+        if (basic > 10000) 
         {
-            bits.Add(n % 2);
-            n /= 2;
+            Console.WriteLine(-2); return;
         }
-        bits.Reverse();
+        if (days > 31) 
+        {
+            Console.WriteLine(-3); return;
+        }
 
-        for (int i = 0; i < bits.Count; i++)
-            Console.Write(bits[i] + " ");
+        double da = 0.75 * basic;
+        double hra = 0.50 * basic;
+        double gross = basic + da + hra;
+
+        Console.WriteLine(gross);
     }
 }
