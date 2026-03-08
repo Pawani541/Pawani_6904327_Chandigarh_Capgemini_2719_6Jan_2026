@@ -4,32 +4,24 @@ class Program
 {
     static void Main()
     {
-        Console.Write("Enter size: ");
-        int n = Convert.ToInt32(Console.ReadLine());
-        if (n < 0)
-        {
-            Console.WriteLine(-2);
-            return;
-        }
+        Console.Write("Enter first number: ");
+        int a = Convert.ToInt32(Console.ReadLine());
 
-        int[] arr = new int[n];
-        int odd = 0, even = 0;
+        Console.Write("Enter second number: ");
+        int b = Convert.ToInt32(Console.ReadLine());
 
-        Console.WriteLine("Enter numbers:");
-        for (int i = 0; i < n; i++)
-        {
-            arr[i] = Convert.ToInt32(Console.ReadLine());
-            if (arr[i] < 0) 
-            {
-                Console.WriteLine(-1);
-                return;
-            }
+        if (a < 0 || b < 0) { Console.WriteLine(-1); return; }
 
-            if (arr[i] % 2 == 0)
-                even += arr[i];
-            else odd += arr[i];
-        }
+        Console.Write("Enter operation (1=+,2=-,3=*,4=/): ");
+        int op = Convert.ToInt32(Console.ReadLine());
 
-        Console.WriteLine((odd + even) / 2);
+        int result = 0;
+
+        if (op == 1) result = a + b;
+        else if (op == 2) result = a - b;
+        else if (op == 3) result = a * b;
+        else if (op == 4) result = b != 0 ? a / b : 0;
+
+        Console.WriteLine(result);
     }
 }
