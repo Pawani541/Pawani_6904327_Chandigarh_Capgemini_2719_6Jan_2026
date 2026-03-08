@@ -1,17 +1,21 @@
 ﻿using System;
 
-class FToC
+class PerfectNum
 {
     static void Main()
     {
-        Console.Write("Enter Fahrenheit: ");
-        double f = double.Parse(Console.ReadLine());
-        double output;
+        Console.Write("Enter number: ");
+        int n = int.Parse(Console.ReadLine());
+        int output;
 
-        if (f < 0) output = -1;
-        else output = (f - 32) * 5.0 / 9.0;
-
+        if (n < 0) output = -2;
+        else
+        {
+            int sum = 0;
+            for (int i = 1; i < n; i++)
+                if (n % i == 0) sum += i;
+            output = (sum == n) ? 1 : -1;
+        }
         Console.WriteLine("Output: " + output);
     }
 }
-s
