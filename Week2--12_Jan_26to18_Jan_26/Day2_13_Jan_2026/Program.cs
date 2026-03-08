@@ -1,21 +1,33 @@
 ﻿using System;
-using System.Linq;
 
 class Program
 {
     static void Main()
     {
-        int[] arr = { 20, -10, 4, 78, -3, 12 };
+        int[] arr = { 5, 7, 9, 12 };
         int size = arr.Length;
+        int search = 7;
+        int output = -3;
 
         if (size < 0)
         {
-            Console.WriteLine("-1");
-            return;
+            output = -2;
         }
-
-        var result = arr.Where(x => x >= 0).OrderBy(x => x).ToArray();
-
-        Console.WriteLine("Output: " + string.Join(",", result));
+        else
+        {
+            for (int i = 0; i < size; i++)
+            {
+                if (arr[i] < 0)
+                {
+                    output = -1;
+                    break;
+                }
+                if (arr[i] == search)
+                {
+                    output = 1;
+                }
+            }
+        }
+        Console.WriteLine("Output: " + output);
     }
 }
