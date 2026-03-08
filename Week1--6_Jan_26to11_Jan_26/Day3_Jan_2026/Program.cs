@@ -4,22 +4,18 @@ class Program
 {
     static void Main()
     {
-        Console.Write("Enter first number: ");
-        int a = int.Parse(Console.ReadLine());
+        Console.WriteLine("What is the correct way to declare an integer?");
+        Console.WriteLine("a. int 1x=10;");
+        Console.WriteLine("b. int x=10;");
+        Console.WriteLine("c. float x=10.0f;");
+        Console.WriteLine("d. string x=\"10\";");
 
-        Console.Write("Enter second number: ");
-        int b = int.Parse(Console.ReadLine());
+        Console.Write("Choose your answer letter: ");
+        char choice = char.Parse(Console.ReadLine());
 
-        Console.Write("Enter third number: ");
-        int c = int.Parse(Console.ReadLine());
-
-        int greatest = a;
-
-        if (b > greatest)
-            greatest = b;
-        if (c > greatest)
-            greatest = c;
-
-        Console.WriteLine("Greatest number is: " + greatest);
+        if (choice == 'b' || choice == 'B')
+            Console.WriteLine("Correct choice!");
+        else
+            Console.WriteLine("Incorrect choice!");
     }
 }
