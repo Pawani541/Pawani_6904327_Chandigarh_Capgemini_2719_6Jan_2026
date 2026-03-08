@@ -1,20 +1,36 @@
 ﻿using System;
-class FactProg
+using System.Collections.Generic;
+
+class MaxRepeat
 {
     static void Main()
     {
-        int n = int.Parse(Console.ReadLine());
-        int output1 = 0;
+        Console.Write("Enter size of array: ");
+        int size = int.Parse(Console.ReadLine());
 
-        if (n < 0) output1 = -1;
-        else if (n > 7) output1 = -2;
-        else
+        int[] arr = new int[size];
+        Dictionary<int, int> freq = new Dictionary<int, int>();
+
+        Console.WriteLine("Enter array elements:");
+        for (int i = 0; i < size; i++)
         {
-            int fact = 1;
-            for (int i = 1; i <= n; i++) fact *= i;
-            output1 = fact;
+            Console.Write("arr[" + i + "] = ");
+            arr[i] = int.Parse(Console.ReadLine());
+
+            if (freq.ContainsKey(arr[i]))
+                freq[arr[i]]++;
+            else
+                freq[arr[i]] = 1;
         }
-        Console.WriteLine(output1);
+
+        int maxCount = 0;
+        foreach (var p in freq)
+            if (p.Value > maxCount)
+                maxCount = p.Value;
+
+        Console.WriteLine("\nOutput elements:");
+        foreach (var p in freq)
+            if (p.Value == maxCount)
+                Console.Write(p.Key + " ");
     }
 }
-
