@@ -4,15 +4,22 @@ class Program
 {
     static void Main()
     {
-        Console.WriteLine("Press any key...");
+        Console.Write("Enter first number: ");
+        int a = int.Parse(Console.ReadLine());
 
-        ConsoleKeyInfo key = Console.ReadKey();
-        Console.WriteLine();
+        Console.Write("Enter second number: ");
+        int b = int.Parse(Console.ReadLine());
 
-        if (key.KeyChar >= '0' && key.KeyChar <= '9')
-            Console.WriteLine("You pressed number: " + key.KeyChar);
-        else
-            Console.WriteLine("Not allowed");
+        Console.Write("Enter third number: ");
+        int c = int.Parse(Console.ReadLine());
+
+        int greatest = a;
+
+        if (b > greatest)
+            greatest = b;
+        if (c > greatest)
+            greatest = c;
+
+        Console.WriteLine("Greatest number is: " + greatest);
     }
 }
-
