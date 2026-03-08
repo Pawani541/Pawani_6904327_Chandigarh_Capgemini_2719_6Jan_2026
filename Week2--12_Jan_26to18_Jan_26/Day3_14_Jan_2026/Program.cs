@@ -4,27 +4,34 @@ class Program
 {
     static void Main()
     {
-        Console.Write("Enter the limit: ");
+        Console.WriteLine("Enter a binary number:");
         int input1 = Convert.ToInt32(Console.ReadLine());
-        int sum = 0, count = 0, avg = 0;
 
-        if (input1 < 0)
+        int output = BinaryToDecimal(input1);
+
+        Console.WriteLine("Output: " + output);
+    }
+
+    static int BinaryToDecimal(int binary)
+    {
+        if (binary > 11111)
+            return -2;
+
+        int decimalValue = 0;
+        int baseValue = 1;
+
+        while (binary > 0)
         {
-            avg = -1;
-        }
-        else
-        {
-            for (int i = 1; i <= input1; i++)
-            {
-                if (i % 5 == 0)
-                {
-                    sum += i;
-                    count++;
-                }
-            }
-            avg = (count == 0) ? 0 : sum / count;
+            int digit = binary % 10;
+
+            if (digit != 0 && digit != 1)
+                return -1;
+
+            decimalValue += digit * baseValue;
+            baseValue *= 2;
+            binary /= 10;
         }
 
-        Console.WriteLine("Output = " + avg);
+        return decimalValue;
     }
 }
