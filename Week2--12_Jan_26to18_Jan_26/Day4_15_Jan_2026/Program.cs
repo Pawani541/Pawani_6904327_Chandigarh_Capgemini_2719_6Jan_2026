@@ -4,34 +4,29 @@ class Program
 {
     static void Main()
     {
-        Console.Write("Enter size: ");
-        int n = Convert.ToInt32(Console.ReadLine());
+        Console.Write("Enter salary per month: ");
+        int salary = Convert.ToInt32(Console.ReadLine());
 
-        if (n < 0) { 
-            Console.WriteLine(-2); return; 
-        }
+        Console.Write("Enter working days: ");
+        int days = Convert.ToInt32(Console.ReadLine());
 
-        int[] arr = new int[n];
-        Console.WriteLine("Enter elements:");
+        int result;
 
-        for (int i = 0; i < n; i++)
+        if (salary > 9000) result = -1;
+        else if (salary < 0) result = -2;
+        else if (days < 0) result = -4;
+        else
         {
-            arr[i] = Convert.ToInt32(Console.ReadLine());
-            if (arr[i] < 0) 
-            {
-                Console.WriteLine(-1); return; 
-            }
+            double daily = salary / 30.0;
+            double earned = daily * days;
+            if (days == 31) earned += 500;
+
+            double food = 0.5 * earned;
+            double travel = 0.2 * earned;
+
+            result = (int)(earned - (food + travel));
         }
 
-        int min = arr[0];
-        int max = arr[0];
-
-        for (int i = 1; i < n; i++)
-        {
-            if (arr[i] < min) min = arr[i];
-            if (arr[i] > max) max = arr[i];
-        }
-
-        Console.WriteLine(max * min);
+        Console.WriteLine(result);
     }
 }
