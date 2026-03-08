@@ -1,75 +1,82 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Threading;
 
-class OrderProcessing
+class Program
 {
-    static int ProcessedCount = 0;
-    static int Revenue = 0;
-    static object locker = new object();
-    static Queue<int> orders = new Queue<int>();
+    static BlockingCollection<string> logs;
+    static int processedCount = 0;
 
-    static bool useLock = true;
-
-    static void Worker()
+    static void Main()
     {
-        while (true)
-        {
-            int price;
-            lock (orders)
-            {
-                if (orders.Count == 0)
-                    return;
-                price = orders.Dequeue();
-            }
+        
+        Console.WriteLine("Enter total number of logs:");
+        int totalLogs = int.Parse(Console.ReadLine());
 
-            if (useLock)
+        Console.WriteLine("Enter buffer capacity:");
+        int capacity = int.Parse(Console.ReadLine());
+
+        logs = new BlockingCollection<string>(capacity);
+
+        Thread producer = new Thread(() => Producer(totalLogs));
+        Thread consumer1 = new Thread(Consumer1);
+        Thread consumer2 = new Thread(Consumer2);
+
+        producer.Start();
+        consumer1.Start();
+        consumer2.Start();
+
+        producer.Join();
+        consumer1.Join();
+        consumer2.Join();
+
+        // ===== OUTPUT =====
+        Console.WriteLine("--------------------");
+        Console.WriteLine("Total logs processed: " + processedCount);
+    }
+
+    static void Producer(int totalLogs)
+    {
+        for (int i = 1; i <= totalLogs; i++)
+        {
+            logs.Add("Log " + i);
+            Console.WriteLine("Produced: Log " + i);
+        }
+
+        logs.CompleteAdding(); // important
+    }
+
+    static void Consumer1()
+    {
+        foreach (string log in logs.GetConsumingEnumerable())
+        {
+            try
             {
-                lock (locker)
-                {
-                    ProcessedCount++;
-                    Revenue += price;
-                }
+                Console.WriteLine("Consumer 1 processing " + log);
+                Thread.Sleep(50);
+                processedCount++;
             }
-            else
+            catch
             {
-                ProcessedCount++;
-                Revenue += price;
+                Console.WriteLine("Consumer 1 error");
             }
         }
     }
 
-    static void Main()
+    static void Consumer2()
     {
-        Console.WriteLine("Enter number of workers:");
-        int workers = int.Parse(Console.ReadLine());
-
-        Console.WriteLine("Enter total number of orders:");
-        int totalOrders = int.Parse(Console.ReadLine());
-
-        Console.WriteLine("Enter price per order:");
-        int pricePerOrder = int.Parse(Console.ReadLine());
-
-        Console.WriteLine("Use lock? (yes/no):");
-        string choice = Console.ReadLine();
-        useLock = choice.ToLower() == "yes";
-
-        for (int i = 0; i < totalOrders; i++)
-            orders.Enqueue(pricePerOrder);
-
-        Thread[] threads = new Thread[workers];
-
-        for (int i = 0; i < workers; i++)
+        foreach (string log in logs.GetConsumingEnumerable())
         {
-            threads[i] = new Thread(Worker);
-            threads[i].Start();
+            try
+            {
+                Console.WriteLine("Consumer 2 processing " + log);
+                Thread.Sleep(50);
+                processedCount++;
+            }
+            catch
+            {
+                Console.WriteLine("Consumer 2 error");
+            }
         }
-
-        foreach (Thread t in threads)
-            t.Join();
-
-        Console.WriteLine("\nFinal Output:");
-        Console.WriteLine("ProcessedCount = " + ProcessedCount);
-        Console.WriteLine("Revenue = " + Revenue);
     }
 }
